@@ -4,6 +4,7 @@ from crewai.project import CrewBase, agent, crew, task
 # Importy Twoich komponentów
 from src.llm import local_llm
 from src.tools.ebay_tool import EbaySearchTool
+from .tools.openapi_tool import json_tool 
 
 @CrewBase
 class EbaySniperCrew:
@@ -32,6 +33,15 @@ class EbaySniperCrew:
             verbose=True
         )
 
+
+    @agent
+    def sourcingAgent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['sourcing_agent'],
+            tools=[json_tool, EbaySearchTool()],
+            verbose=True,
+            llm=local_llm,
+        )
     # --- ZADANIA (Tu podpinamy YAML) ---
     @task
     def sourcing_task(self) -> Task:
