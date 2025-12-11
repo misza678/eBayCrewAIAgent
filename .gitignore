@@ -1,0 +1,13 @@
+# Klucze API i konfiguracja
+.env
+.vscode/
+
+# Pythonowe śmieci
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Środowiska wirtualne (jeśli masz)
+venv/
+env/
+.venv/

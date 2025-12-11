@@ -1,0 +1,17 @@
+sourcing_task:
+  description: >
+    Znajdź przedmioty pasujące do zapytania: "{topic}".
+    Użyj dostępnych narzędzi, aby przeszukać eBay.
+    Upewnij się, że cena nie przekracza budżetu (jeśli podano).
+  expected_output: >
+    Lista ofert w formacie JSON/Tekstowym zawierająca tytuł, cenę i link.
+  agent: sourcing_agent
+
+analysis_task:
+  description: >
+    Przeanalizuj listę ofert dostarczoną przez Szperacza.
+    Wybierz najlepsze okazje.
+    Dla każdej napisz krótkie uzasadnienie, dlaczego warto to kupić.
+  expected_output: >
+    Raport inwestorski z rekomendacją zakupu.
+  agent: analyst_agent
