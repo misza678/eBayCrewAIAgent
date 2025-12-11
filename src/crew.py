@@ -4,21 +4,25 @@ from crewai.project import CrewBase, agent, crew, task
 # Importy Twoich komponentów
 from src.llm import local_llm
 from src.tools.ebay_tool import EbaySearchTool
-from .tools.openapi_tool import json_tool 
+from src.tools.local_json_tool import LocalJSONTool
+import os
 
 @CrewBase
 class EbaySniperCrew:
     """Główna klasa bota"""
-    
+
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
     # --- AGENCI ---
     @agent
     def sourcing_agent(self) -> Agent:
+        json_path = os.path.join("src", "data", "ebay_browse_lite.json")
+        local_json_tool = LocalJSONTool(json_path=json_path)
+
         return Agent(
             config=self.agents_config['sourcing_agent'],
-            tools=[EbaySearchTool()],
+            tools=[local_json_tool, EbaySearchTool()],
             llm=local_llm,
             verbose=True,
             max_iter=3,
@@ -33,16 +37,7 @@ class EbaySniperCrew:
             verbose=True
         )
 
-
-    @agent
-    def sourcingAgent(self) -> Agent:
-        return Agent(
-            config=self.agents_config['sourcing_agent'],
-            tools=[json_tool, EbaySearchTool()],
-            verbose=True,
-            llm=local_llm,
-        )
-    # --- ZADANIA (Tu podpinamy YAML) ---
+    # --- ZADANIA ---
     @task
     def sourcing_task(self) -> Task:
         return Task(
@@ -53,7 +48,7 @@ class EbaySniperCrew:
     def analysis_task(self) -> Task:
         return Task(
             config=self.tasks_config['analysis_task'],
-            context=[self.sourcing_task()] # <--- Ważne: Analityk widzi wynik Szperacza
+            context=[self.sourcing_task()]  # Analityk widzi wynik Szperacza
         )
 
     # --- ZAŁOGA ---

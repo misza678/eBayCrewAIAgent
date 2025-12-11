@@ -107,7 +107,7 @@ class EbayService:
 
         try:
             response = requests.get(endpoint, headers=headers, params=params, timeout=10)
-            
+            logger.info(f"🌐 Wysłano parametry: {params}")
             # Debugowanie
             # print(f"\n🔵 [DEBUG] URL: {response.url}")
 

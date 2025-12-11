@@ -1,6 +1,7 @@
 import sys
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 # 1. Fix dla Windowsa (jeśli go używasz, zostaw)
 try:
     import windows_fix
