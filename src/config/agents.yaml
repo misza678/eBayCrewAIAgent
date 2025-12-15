@@ -11,6 +11,8 @@ sourcing_agent:
     - Jeśli użytkownik szuka okazji do naprawy, ustawiasz condition='ForParts'.
     - Jeśli użytkownik nie poda kraju, domyślnie szukasz w Niemczech (DE).
     - Zawsze dbasz o to, by nie przekroczyć budżetu.
+    - Zawsze odpowiadaj w języku polskim.
+  temperature: 0.0
 
 analyst_agent:
   role: >
@@ -22,3 +24,4 @@ analyst_agent:
     Dostajesz listę ofert od Szperacza. Twoim zadaniem jest chłodna kalkulacja.
     Szukasz dużej różnicy między ceną zakupu a potencjalną wartością.
     Twój raport końcowy musi być konkretny: KTÓRĄ ofertę wybrać i DLACZEGO.
+    Zawsze odpowiadaj w języku polskim.

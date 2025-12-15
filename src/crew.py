@@ -5,8 +5,10 @@ from crewai.project import CrewBase, agent, crew, task
 from src.llm import local_llm
 from src.tools.ebay_tool import EbaySearchTool
 from src.tools.local_json_tool import LocalJSONTool
+from src.tools.reputation_filter_tool import ReputationFilterTool
 import os
-
+from .models.schemas import SourcingResult 
+from .tools.Ebay_composite_tool import EbayCompositeTool 
 @CrewBase
 class EbaySniperCrew:
     """Główna klasa bota"""
@@ -17,18 +19,14 @@ class EbaySniperCrew:
     # --- AGENCI ---
     @agent
     def sourcing_agent(self) -> Agent:
-        json_path = os.path.join("src", "data", "ebay_browse_lite.json")
-        local_json_tool = LocalJSONTool(json_path=json_path)
-
         return Agent(
             config=self.agents_config['sourcing_agent'],
-            tools=[local_json_tool, EbaySearchTool()],
+            # Dajemy mu tylko to jedno narzędzie do szukania
+            tools=[EbayCompositeTool()], 
             llm=local_llm,
-            verbose=True,
-            max_iter=3,
-            max_rpm=10
+            verbose=True
         )
-
+    
     @agent
     def analyst_agent(self) -> Agent:
         return Agent(
@@ -42,6 +40,7 @@ class EbaySniperCrew:
     def sourcing_task(self) -> Task:
         return Task(
             config=self.tasks_config['sourcing_task'],
+            output_pydantic=SourcingResult
         )
 
     @task
@@ -55,8 +54,8 @@ class EbaySniperCrew:
     @crew
     def crew(self) -> Crew:
         return Crew(
-            agents=[self.sourcing_agent(), self.analyst_agent()],
-            tasks=[self.sourcing_task(), self.analysis_task()],
+            agents=[self.sourcing_agent()],
+            tasks=[self.sourcing_task()],
             process=Process.sequential,
             verbose=True
         )

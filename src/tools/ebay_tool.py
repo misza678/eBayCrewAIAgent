@@ -67,20 +67,15 @@ class EbaySearchTool(BaseTool):
         if not raw_results:
             return f"Nie znaleziono ofert dla '{query}' w kraju {origin_country}."
 
-        # KROK C: Filtrowanie po reputacji
-        filtered_results = [
-            item for item in raw_results
-            if float(item.get('seller_feedback', 0)) >= min_seller_feedback
-        ]
 
         # KROK D: Formatowanie wyniku
-        if not filtered_results:
+        if not raw_results:
             return f"Znaleziono {len(raw_results)} ofert, ale żadna nie ma feedbacku > {min_seller_feedback}%."
 
-        output_text = f"Znaleziono {len(filtered_results)} ofert (Kraj: {origin_country}, Stan: {condition}):\n"
+        output_text = f"Znaleziono {len(raw_results)} ofert (Kraj: {origin_country}, Stan: {condition}):\n"
         
         # Ograniczamy do 10, żeby nie zapchać kontekstu LLM
-        for item in filtered_results[:10]:
+        for item in raw_results:
             price = item.get('total_price', item.get('price'))
             title = item.get('title')
             link = item.get('url')

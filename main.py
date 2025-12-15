@@ -21,7 +21,7 @@ def run():
     user_input = input("👉 Twoje zapytanie: ")
     
     inputs = {
-        'topic': user_input
+        'search_query': user_input 
     }
     
     # Uruchomienie

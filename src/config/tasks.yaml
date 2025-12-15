@@ -1,10 +1,11 @@
 sourcing_task:
   description: >
-    Znajdź przedmioty pasujące do zapytania: "{topic}".
-    Użyj dostępnych narzędzi, aby przeszukać eBay.
-    Upewnij się, że cena nie przekracza budżetu (jeśli podano).
+    Znajdź oferty dla zapytania: "{search_query}".
+    Użyj narzędzia `search_and_filter_ebay`.
+    Narzędzie to zwróci gotową listę zweryfikowanych ofert.
+    Twoim jedynym zadaniem jest przekształcenie wyniku tego narzędzia na format wyjściowy.
   expected_output: >
-    Lista ofert w formacie JSON/Tekstowym zawierająca tytuł, cenę i link.
+    Lista ofert w formacie JSON.
   agent: sourcing_agent
 
 analysis_task:

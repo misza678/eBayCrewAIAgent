@@ -33,6 +33,19 @@ class DealVerdict(BaseModel):
     decision_basis: str = Field(default="Brak danych", description="Szczegóły decyzji")
     math_breakdown: str = Field(default="-", description="Wyliczenia")
 
+class Item(BaseModel):
+    title: str
+    price: str
+    currency: str
+    url: str
+    condition: str
+    # Tylko jedno pole dot. reputacji - procenty jako float
+    seller_percentage: float 
+
+class SourcingResult(BaseModel):
+    items: List[Item]
+    total_items: int
+
 class DealList(BaseModel):
     """Lista ocenionych ofert."""
     deals: List[DealVerdict] = Field(default_factory=list)
